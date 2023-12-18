@@ -20,7 +20,7 @@ class HttpProxyAdapter extends IOHttpClientAdapter {
       final proxy = '$domain$portString';
       return HttpClient()
         ..findProxy = (url) {
-          return 'PROXY $proxy';
+          return 'PROXY $proxy; DIRECT';
         }
         ..badCertificateCallback = (cert, host, port) => true;
     };
