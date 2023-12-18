@@ -9,16 +9,15 @@ import 'package:dio/io.dart';
 /// [port] 端口，默认是8888
 ///
 class HttpProxyAdapter extends IOHttpClientAdapter {
-  final String ipAddr;
-  final int? port;
+  final String proxy;
 
-  HttpProxyAdapter({
-    required this.ipAddr,
-    this.port,
-  }) {
+  HttpProxyAdapter(this.proxy) {
+    final arrProxy = proxy.split(':');
+    final port = int.tryParse(arrProxy[1]);
+    final domain = int.tryParse(arrProxy[0]);
     createHttpClient = () {
       final portString = port != null ? ':$port' : '';
-      final proxy = '$ipAddr$portString';
+      final proxy = '$domain$portString';
       return HttpClient()
         ..findProxy = (url) {
           return 'PROXY $proxy';
